@@ -1,0 +1,893 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Split Landing Page - Mode Selector -->
+<div class="mode-selector" id="mode-selector">
+    <div class="mode-hero">
+        <div class="mode-logo-area">
+            <i class="fa-solid fa-seedling mode-logo-icon"></i>
+            <h1>AgriLens <span class="highlight">AI Platform</span></h1>
+            <p>Choose a tool to get started with your farming needs</p>
+        </div>
+        
+        <div class="pest-warning-banner hidden" id="pest-warning-banner" style="background: #fee2e2; border-left: 5px solid #ef4444; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.5rem;"></i>
+                <div>
+                    <h4 style="margin: 0; color: #991b1b; font-size: 1.1rem;">Regional AI Alert</h4>
+                    <p id="pest-warning-text" style="margin: 5px 0 0; color: #b91c1c; font-size: 0.95rem;">Analyzing local risk factors...</p>
+                </div>
+            </div>
+            <button onclick="document.getElementById('pest-warning-banner').classList.add('hidden')" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #b91c1c;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="mode-cards">
+            <!-- Card 5: Crop Calendar -->
+            <div class="mode-card" id="mode-calendar-card" onclick="selectMode('calendar')">
+                <div class="mode-card-icon">
+                    <i class="fa-regular fa-calendar-check"></i>
+                </div>
+                <h2>Crop Calendar Planner</h2>
+                <p>Enter your crop and planting date to generate a complete timeline of tasks, irrigation, and harvesting.</p>
+                <div class="mode-card-btn">
+                    <span>Plan Schedule</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+            <!-- Card 1: Disease Detection -->
+            <div class="mode-card" id="mode-disease-card" onclick="selectMode('disease')">
+                <div class="mode-card-icon">
+                    <i class="fa-solid fa-microscope"></i>
+                </div>
+                <h2>Disease Detection</h2>
+                <p>Upload a photo of any crop leaf to instantly diagnose diseases and get chemical treatments.</p>
+                <div class="mode-card-btn">
+                    <span>Scan Leaf</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Card 2: Soil Analyzer -->
+            <div class="mode-card" id="mode-soil-card" onclick="selectMode('soil')">
+                <div class="mode-card-icon">
+                    <i class="fa-solid fa-mound"></i>
+                </div>
+                <h2>Soil Analyzer</h2>
+                <p>Upload a photo of your soil. AI will detect the soil type, moisture level, and suggest ideal crops.</p>
+                <div class="mode-card-btn">
+                    <span>Scan Soil</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Card 3: Fertilizer OCR -->
+            <div class="mode-card" id="mode-fertilizer-card" onclick="selectMode('fertilizer')">
+                <div class="mode-card-icon">
+                    <i class="fa-solid fa-flask-vial"></i>
+                </div>
+                <h2>Fertilizer Label OCR</h2>
+                <p>Take a photo of any chemical/fertilizer bottle. AI reads the label and explains usage simply.</p>
+                <div class="mode-card-btn">
+                    <span>Read Label</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Card 4: Crop Planning Chatbot -->
+            <div class="mode-card" id="mode-chat-card" onclick="selectMode('chat')">
+                <div class="mode-card-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <h2>AI Farming Advisor</h2>
+                <p>Chat with our intelligent advisor for crop selection, weather tips, and live market trend estimates.</p>
+                <div class="mode-card-btn">
+                    <span>Start Planning</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Card 6: Equipment Advisor -->
+            <div class="mode-card" id="mode-equipment-card" onclick="selectMode('equipment')">
+                <div class="mode-card-icon">
+                    <i class="fa-solid fa-tractor"></i>
+                </div>
+                <h2>Equipment Advisor</h2>
+                <p>Enter your farm size and crop to get AI recommendations on tractors, tillers, and irrigation.</p>
+                <div class="mode-card-btn">
+                    <span>Find Machinery</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Card 7: Profit Calculator -->
+            <div class="mode-card" id="mode-profit-card" onclick="selectMode('profit')">
+                <div class="mode-card-icon">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+                <h2>Profit Calculator</h2>
+                <p>Calculate live cost vs. revenue estimates based on seeds, fertilizer, and live market trend pricing.</p>
+                <div class="mode-card-btn">
+                    <span>Calculate ROI</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Card 8: Gov Schemes Finder -->
+            <div class="mode-card" id="mode-schemes-card" onclick="selectMode('schemes')">
+                <div class="mode-card-icon">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+                <h2>Gov Schemes Finder</h2>
+                <p>Instantly find and translate applicable government subsidies and farming schemes for your state.</p>
+                <div class="mode-card-btn">
+                    <span>Search Subsidies</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Disease Detection Section (Initially hidden) -->
+<div class="app-mode-section hidden" id="disease-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-chevron-left"></i> Back to Home
+        </button>
+        <span class="mode-label">
+            <i class="fa-solid fa-microscope"></i> Disease Detection Mode
+        </span>
+    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Detect Crop Diseases in <span class="highlight">Seconds</span></h1>
+            <p class="subtitle">Upload a photo of a crop leaf and our AI will instantly identify the disease and
+                prescribe the best remedies.</p>
+
+            <div class="scanner-container">
+                <div class="upload-area" id="drop-zone">
+                    <form id="upload-form" enctype="multipart/form-data">
+                        <input type="file" id="file-input" name="file" accept="image/*" class="file-input" required>
+                        <div class="upload-state default-state" id="default-state">
+                            <div class="icon-circle">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <h3>Upload Diagnostic Data</h3>
+                            <p>Click to initiate local transfer</p>
+                            <span class="file-hint">Supports JPG, PNG, WEBP (Max: 16MB)</span>
+                        </div>
+                        <div class="upload-state preview-state hidden" id="preview-state">
+                            <img id="image-preview" src="#" alt="Leaf Preview">
+                            <div class="preview-overlay">
+                                <button type="button" class="btn-secondary" id="remove-btn">
+                                    <i class="fa-solid fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <button class="btn-primary analyze-btn" id="analyze-btn" disabled>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Image
+                </button>
+            </div>
+
+            <div class="loading-overlay hidden" id="loading-overlay">
+                <div class="scanner-line"></div>
+                <div class="pulse-loader"></div>
+                <h3>AI Engine Analyzing...</h3>
+                <p id="loading-status-text">Processing Diagnostic Data...</p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section hidden" id="results-section">
+            <div class="results-header">
+                <h2>Analysis Complete</h2>
+                <div class="result-actions">
+
+                    <button class="action-btn" id="disease-voice-btn" title="Listen"><i
+                            class="fa-solid fa-volume-high"></i></button>
+                    <button class="action-btn whatsapp-btn" id="disease-whatsapp-btn" title="Share on WhatsApp"><i
+                            class="fa-brands fa-whatsapp"></i></button>
+                    <button class="action-btn pdf-btn" id="disease-pdf-btn" title="Download PDF"><i
+                            class="fa-solid fa-file-pdf"></i></button>
+                    <button class="btn-refresh" id="scan-new-btn"><i class="fa-solid fa-rotate-right"></i> Scan New
+                        Leaf</button>
+                </div>
+            </div>
+
+            <div class="results-layout">
+                <div class="result-card image-card" id="result-card-image">
+                    <div class="scanned-image-wrapper">
+                        <img id="result-image" src="" alt="Scanned Leaf">
+                        <div class="scan-overlay"></div>
+                    </div>
+                    <div class="confidence-box">
+                        <div class="conf-header">
+                            <span>AI Confidence Score</span>
+                            <span id="conf-value" class="conf-value">98.5%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="conf-bar"></div>
+                        </div>
+                        <div class="health-score-box">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            Plant Health Score: <span id="health-score">--</span>/100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-card data-card" id="data-card">
+                    <div class="disease-header">
+                        <span class="crop-tag" id="crop-tag">Tomato</span>
+                        <h1 id="disease-name" class="disease-name">Early Blight</h1>
+                        <p id="scientific-name"
+                            style="color: var(--text-muted); font-style: italic; margin-bottom: 12px; font-size: 1.1rem;">
+                        </p>
+                        <div class="severity-badge" id="severity-badge">High Severity</div>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-box block-full">
+                            <h3><i class="fa-solid fa-microscope text-blue"></i> Symptoms</h3>
+                            <p id="symptoms-text">Loading...</p>
+                        </div>
+                        <div class="info-box">
+                            <h3><i class="fa-solid fa-virus text-purple"></i> Causes</h3>
+                            <p id="causes-text">Loading...</p>
+                        </div>
+                        <div class="info-box">
+                            <h3><i class="fa-solid fa-shield-virus text-orange"></i> Prevention</h3>
+                            <p id="prevention-text">Loading...</p>
+                        </div>
+                        <div class="info-box block-full treatment-box">
+                            <h3><i class="fa-solid fa-prescription-bottle-medical text-green"></i> Treatment & Best
+                                Practices</h3>
+                            <p id="treatment-text">Loading...</p>
+                        </div>
+                        <div class="info-box block-full chemicals-box"
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(245, 158, 11, 0.08)); border-color: rgba(245, 158, 11, 0.3);">
+                            <h3><i class="fa-solid fa-flask text-orange"></i> Recommended Chemical Control</h3>
+                            <ul id="chemicals-list"
+                                style="color: var(--text-muted); padding-left: 20px; font-size: 1.05rem; line-height: 1.7;">
+                                <li>Loading...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Chatbot -->
+            <div class="chatbot-section" id="disease-chatbot-section">
+                <div class="chatbot-header">
+                    <i class="fa-solid fa-robot"></i>
+                    <h3>Ask the AI More Questions</h3>
+                    <span class="chatbot-badge">Powered by Gemini</span>
+                </div>
+                <div class="chatbot-messages" id="disease-chatbot-messages">
+                    <div class="chat-msg ai-msg">
+                        <i class="fa-solid fa-leaf"></i>
+                        Hi! I've analyzed your plant. Ask me anything about this disease, treatments, or how to prevent
+                        it!
+                    </div>
+                </div>
+                <div class="chatbot-input-area">
+                    <button class="chat-mic-btn" id="disease-mic-btn" title="Voice Input" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0 10px;"><i class="fa-solid fa-microphone"></i></button>
+                    <input type="text" id="disease-chat-input" class="chat-input" placeholder="Request Intelligence Query..." />
+                    <button class="chat-send-btn" id="disease-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scan History -->
+        <section class="history-section" id="history-section" style="display:none;">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Scans</h3>
+            <div class="history-list" id="history-list"></div>
+        </section>
+
+
+    </main>
+</div>
+
+
+<!-- Soil Analyzer Section (Initially hidden) -->
+<div class="app-mode-section hidden" id="soil-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-chevron-left"></i> Back to Home
+        </button>
+        <span class="mode-label mode-label-orange">
+            <i class="fa-solid fa-mound"></i> Soil Analyzer Mode
+        </span>
+    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Analyze Soil Health in <span class="highlight">Seconds</span></h1>
+            <p class="subtitle">Upload a photo of your farm soil and our AI will detect moisture, composition, and
+                recommend crops and
+                prescribe the best remedies.</p>
+
+            <div class="scanner-container">
+                <div class="upload-area" id="soil-drop-zone">
+                    <form id="soil-upload-form" enctype="multipart/form-data">
+                        <input type="file" id="soil-file-input" name="file" accept="image/*" class="soil-file-input"
+                            required>
+                        <div class="upload-state soil-default-state" id="soil-default-state">
+                            <div class="icon-circle">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <h3>Upload Topography Scan</h3>
+                            <p>Click to initiate local transfer</p>
+                            <span class="file-hint">Supports JPG, PNG, WEBP (Max: 16MB)</span>
+                        </div>
+                        <div class="upload-state soil-preview-state hidden" id="soil-preview-state">
+                            <img id="soil-image-preview" src="#" alt="Soil Preview">
+                            <div class="preview-overlay">
+                                <button type="button" class="btn-secondary" id="soil-remove-btn">
+                                    <i class="fa-solid fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <button class="btn-primary soil-analyze-btn" id="soil-analyze-btn" disabled>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Image
+                </button>
+            </div>
+
+            <div class="soil-loading-overlay hidden" id="soil-loading-overlay">
+                <div class="scanner-line"></div>
+                <div class="pulse-loader"></div>
+                <h3>AI Engine Analyzing...</h3>
+                <p id="soil-loading-status-text">Processing Diagnostic Data...</p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="soil-results-section hidden" id="soil-results-section">
+            <div class="results-header">
+                <h2>Analysis Complete</h2>
+                <div class="result-actions">
+
+                    <button class="action-btn" id="soil-voice-btn" title="Listen"><i
+                            class="fa-solid fa-volume-high"></i></button>
+                    <button class="action-btn whatsapp-btn" id="soil-whatsapp-btn" title="Share on WhatsApp"><i
+                            class="fa-brands fa-whatsapp"></i></button>
+                    <button class="action-btn pdf-btn" id="soil-pdf-btn" title="Download PDF"><i
+                            class="fa-solid fa-file-pdf"></i></button>
+                    <button class="btn-refresh" id="soil-scan-new-btn"><i class="fa-solid fa-rotate-right"></i> Scan New
+                        Leaf</button>
+                </div>
+            </div>
+
+            <div class="results-layout">
+                <div class="result-card image-card" id="soil-result-card-image">
+                    <div class="scanned-image-wrapper">
+                        <img id="soil-result-image" src="" alt="Scanned Soil">
+                        <div class="scan-overlay"></div>
+                    </div>
+                    <div class="confidence-box">
+                        <div class="conf-header">
+                            <span>AI Confidence Score</span>
+                            <span id="soil-conf-value" class="soil-conf-value">98.5%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="soil-conf-bar"></div>
+                        </div>
+                        <div class="soil-health-score-box">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            Plant Health Score: <span id="soil-health-score">--</span>/100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-card soil-data-card" id="soil-data-card">
+                    <div class="disease-header">
+                        <span class="soil-crop-tag" id="soil-crop-tag">Tomato</span>
+                        <h1 id="soil-type-name" class="soil-type-name">Early Blight</h1>
+                        <p id="soil-scientific-name"
+                            style="color: var(--text-muted); font-style: italic; margin-bottom: 12px; font-size: 1.1rem;">
+                        </p>
+                        <div class="soil-severity-badge" id="soil-severity-badge">High Severity</div>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-box block-full">
+                            <h3><i class="fa-solid fa-mound text-blue"></i> Visual Characteristics</h3>
+                            <p id="soil-characteristics-text">Loading...</p>
+                        </div>
+                        <div class="info-box">
+                            <h3><i class="fa-solid fa-virus text-purple"></i> Composition Analysis</h3>
+                            <p id="soil-composition-text">Loading...</p>
+                        </div>
+                        <div class="info-box">
+                            <h3><i class="fa-solid fa-shield-virus text-orange"></i> Recommended Crops</h3>
+                            <p id="soil-crops-text">Loading...</p>
+                        </div>
+                        <div class="info-box block-full treatment-box">
+                            <h3><i class="fa-solid fa-prescription-bottle-medical text-green"></i> Treatment & Best
+                                Practices</h3>
+                            <p id="soil-treatment-text">Loading...</p>
+                        </div>
+                        <div class="info-box block-full chemicals-box"
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(245, 158, 11, 0.08)); border-color: rgba(245, 158, 11, 0.3);">
+                            <h3><i class="fa-solid fa-flask text-orange"></i> Recommended Fertilizers</h3>
+                            <ul id="soil-fertilizers-list"
+                                style="color: var(--text-muted); padding-left: 20px; font-size: 1.05rem; line-height: 1.7;">
+                                <li>Loading...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Chatbot -->
+            <div class="chatbot-section" id="soil-chatbot-section">
+                <div class="chatbot-header">
+                    <i class="fa-solid fa-robot"></i>
+                    <h3>Ask the AI More Questions</h3>
+                    <span class="chatbot-badge">Powered by Gemini</span>
+                </div>
+                <div class="chatbot-messages" id="soil-chatbot-messages">
+                    <div class="chat-msg ai-msg">
+                        <i class="fa-solid fa-leaf"></i>
+                        Hi! I've analyzed your soil. Ask me anything about this soil type, recommended crops, or treatments!
+                    </div>
+                </div>
+                <div class="chatbot-input-area">
+                    <button class="chat-mic-btn" id="soil-mic-btn" title="Voice Input" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0 10px;"><i class="fa-solid fa-microphone"></i></button>
+                    <input type="text" id="soil-chat-input" class="chat-input" placeholder="Request Intelligence Query..." />
+                    <button class="chat-send-btn" id="soil-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scan History -->
+        <section class="history-section" id="history-section" style="display:none;">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Scans</h3>
+            <div class="history-list" id="history-list"></div>
+        </section>
+
+
+    </main>
+</div>
+
+
+<!-- Fertilizer OCR Section (Initially hidden) -->
+<div class="app-mode-section hidden" id="fertilizer-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-chevron-left"></i> Back to Home
+        </button>
+        <span class="mode-label mode-label-purple">
+            <i class="fa-solid fa-flask-vial"></i> Fertilizer OCR Mode
+        </span>
+    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Read Fertilizer Labels in <span class="highlight">Seconds</span></h1>
+            <p class="subtitle">Upload a photo of any chemical or fertilizer bottle line and AI will explain its exact
+                usage and
+                prescribe the best remedies.</p>
+
+            <div class="scanner-container">
+                <div class="upload-area" id="fert-drop-zone">
+                    <form id="fert-upload-form" enctype="multipart/form-data">
+                        <input type="file" id="fert-file-input" name="file" accept="image/*" class="fert-file-input"
+                            required>
+                        <div class="upload-state fert-default-state" id="fert-default-state">
+                            <div class="icon-circle">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <h3>Drag & Drop Label Image</h3>
+                            <p>Click to initiate local transfer</p>
+                            <span class="file-hint">Supports JPG, PNG, WEBP (Max: 16MB)</span>
+                        </div>
+                        <div class="upload-state fert-preview-state hidden" id="fert-preview-state">
+                            <img id="fert-image-preview" src="#" alt="Label Preview">
+                            <div class="preview-overlay">
+                                <button type="button" class="btn-secondary" id="fert-remove-btn">
+                                    <i class="fa-solid fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <button class="btn-primary fert-analyze-btn" id="fert-analyze-btn" disabled>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Image
+                </button>
+            </div>
+
+            <div class="fert-loading-overlay hidden" id="fert-loading-overlay">
+                <div class="scanner-line"></div>
+                <div class="pulse-loader"></div>
+                <h3>AI Engine Analyzing...</h3>
+                <p id="fert-loading-status-text">Processing Diagnostic Data...</p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="fert-results-section hidden" id="fert-results-section">
+            <div class="results-header">
+                <h2>Analysis Complete</h2>
+                <div class="result-actions">
+
+                    <button class="action-btn" id="fert-voice-btn" title="Listen"><i
+                            class="fa-solid fa-volume-high"></i></button>
+                    <button class="action-btn whatsapp-btn" id="fert-whatsapp-btn" title="Share on WhatsApp"><i
+                            class="fa-brands fa-whatsapp"></i></button>
+                    <button class="action-btn pdf-btn" id="fert-pdf-btn" title="Download PDF"><i
+                            class="fa-solid fa-file-pdf"></i></button>
+                    <button class="btn-refresh" id="fert-scan-new-btn"><i class="fa-solid fa-rotate-right"></i> Scan New
+                        Leaf</button>
+                </div>
+            </div>
+
+            <div class="results-layout">
+                <div class="result-card image-card" id="fert-result-card-image">
+                    <div class="scanned-image-wrapper">
+                        <img id="fert-result-image" src="" alt="Scanned Label">
+                        <div class="scan-overlay"></div>
+                    </div>
+                    <div class="confidence-box">
+                        <div class="conf-header">
+                            <span>AI Confidence Score</span>
+                            <span id="fert-conf-value" class="fert-conf-value">98.5%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="fert-conf-bar"></div>
+                        </div>
+                        <div class="fert-health-score-box">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            Safety Rating: <span id="fert-health-score">--</span>/100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-card fert-data-card" id="fert-data-card">
+                    <div class="disease-header">
+                        <span class="fert-crop-tag" id="fert-crop-tag">Tomato</span>
+                        <h1 id="fert-type-name" class="fert-type-name">Early Blight</h1>
+                        <p id="fert-scientific-name"
+                            style="color: var(--text-muted); font-style: italic; margin-bottom: 12px; font-size: 1.1rem;">
+                        </p>
+                        <div class="fert-severity-badge" id="fert-severity-badge">High Severity</div>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-box block-full">
+                            <h3><i class="fa-solid fa-flask-vial text-blue"></i> Active Ingredients</h3>
+                            <p id="fert-ingredients-text">Loading...</p>
+                        </div>
+                        <div class="info-box">
+                            <h3><i class="fa-solid fa-virus text-purple"></i> Usage Instructions</h3>
+                            <p id="fert-usage-text">Loading...</p>
+                        </div>
+                        <div class="info-box">
+                            <h3><i class="fa-solid fa-shield-virus text-orange"></i> Safety Precautions</h3>
+                            <p id="fert-safety-text">Loading...</p>
+                        </div>
+                        <div class="info-box block-full treatment-box">
+                            <h3><i class="fa-solid fa-prescription-bottle-medical text-green"></i> Treatment & Best
+                                Practices</h3>
+                            <p id="fert-targets-text">Loading...</p>
+                        </div>
+                        <div class="info-box block-full chemicals-box"
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(245, 158, 11, 0.08)); border-color: rgba(245, 158, 11, 0.3);">
+                            <h3><i class="fa-solid fa-flask text-orange"></i> Expert Recommendations</h3>
+                            <ul id="fert-recommendations-list"
+                                style="color: var(--text-muted); padding-left: 20px; font-size: 1.05rem; line-height: 1.7;">
+                                <li>Loading...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Chatbot -->
+            <div class="chatbot-section" id="fert-chatbot-section">
+                <div class="chatbot-header">
+                    <i class="fa-solid fa-robot"></i>
+                    <h3>Ask the AI More Questions</h3>
+                    <span class="chatbot-badge">Powered by Gemini</span>
+                </div>
+                <div class="chatbot-messages" id="fert-chatbot-messages">
+                    <div class="chat-msg ai-msg">
+                        <i class="fa-solid fa-leaf"></i>
+                        Hi! I've analyzed your fertilizer. Ask me anything about usage, safety, or expert recommendations!
+                    </div>
+                </div>
+                <div class="chatbot-input-area">
+                    <button class="chat-mic-btn" id="fert-mic-btn" title="Voice Input" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0 10px;"><i class="fa-solid fa-microphone"></i></button>
+                    <input type="text" id="fert-chat-input" class="chat-input" placeholder="Request Intelligence Query..." />
+                    <button class="chat-send-btn" id="fert-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scan History -->
+        <section class="history-section" id="history-section" style="display:none;">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Scans</h3>
+            <div class="history-list" id="history-list"></div>
+        </section>
+
+
+    </main>
+</div>
+
+<!-- Crop Planning Chatbot Section (Initially hidden) -->
+<div class="app-mode-section hidden" id="chat-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-chevron-left"></i> Back to Home
+        </button>
+        <span class="mode-label mode-label-blue">
+            <i class="fa-solid fa-robot"></i> Crop Planning AI Advisor
+        </span>
+    </div>
+
+    <div class="crop-chat-container">
+        <div class="crop-chat-sidebar">
+            <h3><i class="fa-solid fa-lightbulb"></i> Suggested Questions</h3>
+            <div class="suggested-questions">
+                <button class="suggest-btn"
+                    onclick="suggestQuestion('Which crops are best for sandy soil in summer?')">🌾 Best crops for sandy
+                    soil in summer?</button>
+                <button class="suggest-btn"
+                    onclick="suggestQuestion('What is the ideal sowing time for Tomato in Andhra Pradesh?')">🍅 Tomato
+                    sowing season in AP?</button>
+                <button class="suggest-btn" onclick="suggestQuestion('How much water does Rice need per acre?')">💧
+                    Water requirement for Rice per acre?</button>
+                <button class="suggest-btn"
+                    onclick="suggestQuestion('What fertilizers should I use for Cotton crop?')">🌿 Fertilizers for
+                    Cotton?</button>
+                <button class="suggest-btn"
+                    onclick="suggestQuestion('How to increase crop yield naturally without chemicals?')">📈 Increase
+                    yield naturally?</button>
+                <button class="suggest-btn"
+                    onclick="suggestQuestion('Best season to grow Groundnut in Nellore district?')">🥜 Groundnut season
+                    in Nellore?</button>
+                <button class="suggest-btn" onclick="suggestQuestion('How to prepare soil before planting Chilli?')">🌶️
+                    Soil prep for Chilli?</button>
+            </div>
+
+            <div class="chat-divider"></div>
+
+            <!-- Weather Widget -->
+            <div class="sidebar-widget">
+                <h4><i class="fa-solid fa-cloud-sun"></i> Local Weather Advice</h4>
+                <div class="widget-input-group">
+                    <button class="widget-btn" id="weather-gps-btn" style="background: none; color: var(--primary-color);" title="Use My Location"><i class="fa-solid fa-location-crosshairs"></i></button>
+                    <input type="text" id="weather-location" placeholder="Enter city/district..." class="widget-input">
+                    <button class="widget-btn" id="weather-btn"><i class="fa-solid fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="chat-divider"></div>
+
+            <!-- Market Widget -->
+            <div class="sidebar-widget">
+                <h4><i class="fa-solid fa-chart-line"></i> Market Price Trends</h4>
+                <div class="widget-input-group">
+                    <button class="widget-btn" id="market-gps-btn" style="background: none; color: var(--primary-color);" title="Use My Location"><i class="fa-solid fa-location-crosshairs"></i></button>
+                    <input type="text" id="market-crop" placeholder="Enter crop (e.g. Cotton)..." class="widget-input">
+                    <button class="widget-btn" id="market-btn"><i class="fa-solid fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="chat-divider"></div>
+
+            <button class="clear-chat-btn" id="clear-crop-chat">
+                <i class="fa-solid fa-trash"></i> Clear Chat
+            </button>
+        </div>
+
+        <div class="crop-chat-main">
+            <div class="crop-chat-header">
+                <div class="chat-avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h2>AgriBot</h2>
+                    <span class="online-badge"><span class="online-dot"></span> AI Online</span>
+                </div>
+            </div>
+
+            <div class="crop-chat-messages" id="crop-chat-messages">
+                <div class="chat-msg ai-msg crop-ai-msg">
+                    <div class="chat-avatar-sm"><i class="fa-solid fa-robot"></i></div>
+                    <div class="chat-bubble">
+                        <strong>Namaste, Farmer! 🌱</strong><br>
+                        I'm AgriBot, your personal AI farming advisor powered by the system intelligence.<br><br>
+                        I can help you with:
+                        <ul style="margin-top:8px; padding-left:20px;">
+                            <li>Crop selection and planning</li>
+                            <li>Sowing seasons and schedules</li>
+                            <li>Soil preparation and fertilizers</li>
+                            <li>Water & irrigation guidance</li>
+                            <li>Yield improvement techniques</li>
+                            <li>Market timing and profit strategies</li>
+                        </ul>
+                        <br>What would you like to know today?
+                    </div>
+                </div>
+            </div>
+
+            <div class="crop-chat-input-area" style="display: flex; align-items: center; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 5px 15px;">
+                <button class="chat-mic-btn" id="crop-chat-mic-btn" title="Voice Input" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 10px; font-size: 1.2rem;"><i class="fa-solid fa-microphone"></i></button>
+                <input type="text" id="crop-chat-input" class="crop-chat-input"
+                    placeholder="Ask AgriBot anything about farming..." style="flex: 1; border: none; background: transparent; padding: 15px; outline: none; color: var(--text-color);" />
+                <button class="crop-chat-send-btn" id="crop-chat-send-btn" style="background: var(--primary-color); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer;">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Crop Calendar Section (Initially hidden) -->
+<div class="app-mode-section hidden" id="calendar-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-chevron-left"></i> Back to Home
+        </button>
+        <span class="mode-label" style="color: #ec4899; background: rgba(236, 72, 153, 0.1);">
+            <i class="fa-regular fa-calendar-check"></i> Crop Calendar Planner
+        </span>
+    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Dynamic <span style="color: #ec4899;">Crop Scheduler</span></h1>
+            <p class="subtitle">AI generates an end-to-end task timeline from planting to harvest.</p>
+
+            <div style="background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto 30px auto;">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">Crop Name</label>
+                    <input type="text" id="calendar-crop" placeholder="e.g., Rice, Tomato, Cotton" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">Planting Date</label>
+                    <input type="date" id="calendar-date" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <button id="calendar-generate-btn" class="btn-primary" style="width: 100%; background: #ec4899; box-shadow: 0 4px 15px rgba(236,72,153,0.3);">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Timeline
+                </button>
+            </div>
+
+            <div class="loading-overlay hidden" id="calendar-loading">
+                <div class="pulse-loader" style="background: #ec4899;"></div>
+                <h3>AI Architecting Timeline...</h3>
+            </div>
+
+            <div id="calendar-results" class="hidden" style="text-align: left; max-width: 800px; margin: 0 auto;">
+                <h2 style="margin-bottom: 20px; color: var(--text-color);">Your Timeline</h2>
+                <div id="timeline-container" style="border-left: 3px solid #ec4899; padding-left: 20px; margin-left: 10px;">
+                    <!-- Timeline items generated here -->
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- ================= NEW ADVANCED FEATURES ================= -->
+
+<!-- Equipment Advisor Section -->
+<div class="app-mode-section hidden" id="equipment-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i> Back to Home</button>
+        <span class="mode-label" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);"><i class="fa-solid fa-tractor"></i> AI Equipment Advisor</span>
+    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Machinery & <span style="color: #f59e0b;">Equipment</span></h1>
+            <p class="subtitle">AI recommendations for renting/buying tractors, harvesters, and smart irrigation.</p>
+            <div style="background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto 30px auto;">
+                <div style="margin-bottom: 15px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Farm Size</label>
+                    <input type="text" id="equipment-size" placeholder="e.g. 5 acres, 2 hectares" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Crop Type</label>
+                    <input type="text" id="equipment-crop" placeholder="e.g. Wheat, Tomato" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <button id="equipment-btn" class="btn-primary" style="width: 100%; background: #f59e0b; box-shadow: 0 4px 15px rgba(245,158,11,0.3);"><i class="fa-solid fa-wand-magic-sparkles"></i> Get Recommendations</button>
+            </div>
+            <div class="loading-overlay hidden" id="equipment-loading"><div class="pulse-loader" style="background: #f59e0b;"></div><h3>Evaluating Market...</h3></div>
+            <div id="equipment-results" class="hidden" style="text-align: left; max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 25px; border-radius: 15px; border: 1px solid var(--border-color);">
+                <div id="equipment-content"></div>
+                <button class="action-btn pdf-btn" id="equipment-pdf-btn" style="margin-top: 15px;" title="Download PDF"><i class="fa-solid fa-file-pdf"></i> Download Report</button>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Profit Calculator Section -->
+<div class="app-mode-section hidden" id="profit-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i> Back to Home</button>
+        <span class="mode-label" style="color: #10b981; background: rgba(16, 185, 129, 0.1);"><i class="fa-solid fa-indian-rupee-sign"></i> Profit Calculator</span>
+    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Predictive <span style="color: #10b981;">Profit Margin</span></h1>
+            <p class="subtitle">Simulate operational costs (seeds, labor, fertilizer) against live market revenue.</p>
+            <div style="background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto 30px auto;">
+                <div style="margin-bottom: 15px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Crop Name</label>
+                    <input type="text" id="profit-crop" placeholder="e.g. Cotton, Groundnut" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <div style="margin-bottom: 15px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Land Area</label>
+                    <input type="text" id="profit-area" placeholder="e.g. 3 Acres, 1 Hectare" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Expected Yield</label>
+                    <input type="text" id="profit-yield" placeholder="e.g. 15 Quintals" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <button id="profit-btn" class="btn-primary" style="width: 100%; background: #10b981; box-shadow: 0 4px 15px rgba(16,185,129,0.3);"><i class="fa-solid fa-calculator"></i> Simulate Profitability</button>
+            </div>
+            <div class="loading-overlay hidden" id="profit-loading"><div class="pulse-loader" style="background: #10b981;"></div><h3>Running Simulation...</h3></div>
+            <div id="profit-results" class="hidden" style="text-align: left; max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 25px; border-radius: 15px; border: 1px solid var(--border-color);">
+                <div id="profit-content"></div>
+                <button class="action-btn pdf-btn" id="profit-pdf-btn" style="margin-top: 15px;" title="Download PDF"><i class="fa-solid fa-file-pdf"></i> Download Report</button>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Gov Schemes Finder Section -->
+<div class="app-mode-section hidden" id="schemes-mode-section">
+    <div class="mode-back-bar">
+        <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i> Back to Home</button>
+        <span class="mode-label" style="color: #3b82f6; background: rgba(59, 130, 246, 0.1);"><i class="fa-solid fa-landmark"></i> Gov Subsidies Finder</span>
+    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Find Accessible <span style="color: #3b82f6;">Schemes</span></h1>
+            <p class="subtitle">AI matches you with optimal government subsidies and agricultural welfare programs.</p>
+            <div style="background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); max-width: 600px; margin: 0 auto 30px auto;">
+                <div style="margin-bottom: 15px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Your State</label>
+                    <input type="text" id="scheme-state" placeholder="e.g. Maharashtra, Punjab, Telangana" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <div style="margin-bottom: 15px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Crop Cultivated (Optional)</label>
+                    <input type="text" id="scheme-crop" placeholder="e.g. Rice, Sugarcane" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                </div>
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Farmer Category</label>
+                    <select id="scheme-cat" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                        <option value="Small/Marginal">Small/Marginal Farmer</option>
+                        <option value="Large">Large Scale Farmer</option>
+                        <option value="Women">Women Farmer</option>
+                        <option value="SC/ST">SC/ST Community</option>
+                    </select>
+                </div>
+                <button id="schemes-btn" class="btn-primary" style="width: 100%; background: #3b82f6; box-shadow: 0 4px 15px rgba(59,130,246,0.3);"><i class="fa-solid fa-search"></i> Discover Schemes</button>
+            </div>
+            <div class="loading-overlay hidden" id="schemes-loading"><div class="pulse-loader" style="background: #3b82f6;"></div><h3>Scanning Gov Portals...</h3></div>
+            <div id="schemes-results" class="hidden" style="text-align: left; max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 25px; border-radius: 15px; border: 1px solid var(--border-color);">
+                <div id="schemes-content"></div>
+                <button class="action-btn pdf-btn" id="schemes-pdf-btn" style="margin-top: 15px;" title="Download PDF"><i class="fa-solid fa-file-pdf"></i> Download Report</button>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Database Memory Trigger UI (Sidebar/Header) -->
+<button class="action-btn" id="offline-history-btn" title="View Offline Memory" style="position: fixed; bottom: 30px; right: 30px; border-radius: 50%; width: 60px; height: 60px; background: var(--primary-color); color: white; box-shadow: 0 6px 15px rgba(16,185,129,0.4); z-index: 100; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;">
+    <i class="fa-solid fa-database"></i>
+</button>
+
+<div id="offline-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+    <div style="background: var(--bg-color); width: 90%; max-width: 600px; max-height: 80vh; border-radius: 15px; border: 1px solid var(--border-color); overflow: hidden; display: flex; flex-direction: column;">
+        <div style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="margin: 0; color: var(--text-color);"><i class="fa-solid fa-wifi" style="text-decoration: line-through; margin-right: 10px;"></i> Offline Memory Log</h2>
+            <button onclick="document.getElementById('offline-modal').classList.add('hidden')" style="background: none; border: none; font-size: 1.5rem; color: var(--text-color); cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="offline-list" style="padding: 20px; overflow-y: auto; flex: 1; color: var(--text-color);">
+            <p>No offline data saved yet.</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main-content" style="max-width: 900px; margin: 0 auto;">
+    <section class="hero-section" style="margin-bottom: 40px; text-align: left;">
+        <h1 style="font-size: 3rem;">Global <span class="highlight">Knowledge Base</span></h1>
+        <p class="subtitle" style="margin: 0;">Comprehensive database of crop diseases, pathogens, and scientifically
+            recommended treatments.</p>
+    </section>
+
+    <div class="knowledge-grid" style="display: grid; gap: 24px;">
+        {% for name, details in diseases.items() %}
+        <div class="result-card" style="padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <div>
+                    <span class="crop-tag">{{ details.crop }}</span>
+                    <h2 style="font-size: 1.8rem; color: white;">{{ name }}</h2>
+                    <span style="color: var(--text-muted); font-style: italic;">{{ details.scientific_name }}</span>
+                </div>
+                {% if 'High' in details.severity or 'Critical' in details.severity %}
+                <div class="severity-badge sev-high">High Severity</div>
+                {% elif 'Medium' in details.severity %}
+                <div class="severity-badge sev-medium">Medium Severity</div>
+                {% elif 'Low' in details.severity %}
+                <div class="severity-badge sev-low">Low Severity</div>
+                {% else %}
+                <div class="severity-badge sev-none">No Severity</div>
+                {% endif %}
+            </div>
+
+            <p style="color: #cbd5e1; margin-bottom: 16px;"><strong>Symptoms:</strong> {{ details.symptoms }}</p>
+
+            <div
+                style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                <h4 style="color: white; margin-bottom: 8px;">Recommended Treatment</h4>
+                <p style="color: #cbd5e1; font-size: 0.95rem;">{{ details.treatment }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

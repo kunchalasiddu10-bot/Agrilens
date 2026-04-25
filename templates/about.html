@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main-content"
+    style="max-width: 800px; margin: 0 auto; min-height: 60vh; display: flex; flex-direction: column; justify-content: center;">
+    <div class="result-card" style="text-align: center; padding: 40px;">
+        <div class="icon-circle" style="margin: 0 auto 24px;">
+            <i class="fa-solid fa-leaf"></i>
+        </div>
+        <h1 style="font-size: 2.5rem; margin-bottom: 16px;">About AgriLens</h1>
+        <p style="color: #cbd5e1; font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
+            AgriLens is an AI-powered Crop Disease Detection system designed for the Project Expo at Geetanjali College,
+            Nellore. Built by the CSE Department at PBR VITS Kavali, this project aims to bridge the gap between
+            advanced technology and agriculture.
+        </p>
+
+        <h3 style="color: white; margin-bottom: 16px;">Key Features</h3>
+        <ul style="color: #cbd5e1; list-style: none; text-align: left; max-width: 400px; margin: 0 auto;">
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check text-green" style="margin-right: 12px;"></i>
+                Detects over 100+ crop diseases</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check text-green" style="margin-right: 12px;"></i>
+                Modern AI simulation engine</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check text-green" style="margin-right: 12px;"></i>
+                Provides scientifically accurate treatments</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check text-green" style="margin-right: 12px;"></i>
+                Built with Python, Flask, and Premium UI</li>
+        </ul>
+
+        <br>
+        <a href="{{ url_for('index') }}" class="btn-primary"
+            style="display: inline-flex; width: auto; margin-top: 20px;">
+            <i class="fa-solid fa-arrow-left"></i> Back to Scanner
+        </a>
+    </div>
+</main>
+{% endblock %}
