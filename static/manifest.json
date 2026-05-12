@@ -1,0 +1,21 @@
+{
+  "name": "AgriLens AI Engine",
+  "short_name": "AgriLens",
+  "description": "AI-powered crop disease detection and farming companion.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJz48cGF0aCBmaWxsPScjMTBiOTgxJyBkPSJNMTE1LjIgMzczLjRjLTEuOCA2LjktOC43IDExLjUtMTUuOCAxMC42QzQzLjEgMzcxIDAgMjgzLjIgMCAxOTIuMEMwIDg2IDg2IDAgMTkyLjAgMHMxOTIuMCA4NiAxOTIuMCAxOTIuMGMwIDkxLjktNDMuMSAxNzktOTkuNCAxOTItNy4xIDEuMS0xNC0zLjYtMTUuOC0xMC42bC01NC4zLTE5N2wtNTQuMyAxOTd6Ii8+PC9zdmc+",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJz48cGF0aCBmaWxsPScjMTBiOTgxJyBkPSJNMTE1LjIgMzczLjRjLTEuOCA2LjktOC43IDExLjUtMTUuOCAxMC42QzQzLjEgMzcxIDAgMjgzLjIgMCAxOTIuMEMwIDg2IDg2IDAgMTkyLjAgMHMxOTIuMCA4NiAxOTIuMCAxOTIuMGMwIDkxLjktNDMuMSAxNzktOTkuNCAxOTItNy4xIDEuMS0xNC0zLjYtMTUuOC0xMC42bC01NC4zLTE5N2wtNTQuMyAxOTd6Ii8+PC9zdmc+",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
