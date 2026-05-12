@@ -12,6 +12,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Temporary and Backup files
+tmp*
+*.zip
+*.bak
+
 # Uploaded Media
 uploads/
 *.jpg
@@ -22,3 +27,4 @@ uploads/
 # OS generated files
 .DS_Store
 Thumbs.db
+
