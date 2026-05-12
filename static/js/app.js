@@ -159,13 +159,109 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===== LANGUAGE SELECTOR =====
+    // ===== LANGUAGE SELECTOR & TRANSLATION ENGINE =====
+    const translations = {
+        'English': {
+            'ask_ai': 'Ask the AI More Questions',
+            'ai_online': 'AI Online',
+            'chat_welcome_disease': "Hi! I've analyzed your plant. Ask me anything about this disease, treatments, or how to prevent it!",
+            'chat_welcome_soil': "Hi! I've analyzed your soil. Ask me anything about this soil type, recommended crops, or treatments!",
+            'chat_welcome_fert': "Hi! I've analyzed your fertilizer. Ask me anything about usage, safety, or expert recommendations!",
+            'chat_placeholder': 'Ask follow-up question...',
+            'agribot_placeholder': 'Ask AgriBot anything about farming...',
+            'symptoms': 'Symptoms',
+            'causes': 'Causes',
+            'prevention': 'Prevention',
+            'treatment': 'Treatment & Best Practices',
+            'recommended_chemicals': 'Recommended Chemical Control',
+            'soil_chars': 'Visual Characteristics',
+            'composition': 'Composition Analysis',
+            'recommended_crops': 'Recommended Crops',
+            'recommended_fertilizers': 'Recommended Fertilizers',
+            'ingredients': 'Active Ingredients',
+            'usage': 'Usage Instructions',
+            'safety': 'Safety Precautions',
+            'expert_recs': 'Expert Recommendations',
+            'market_price_trends': 'Market Price Trends',
+            'market_placeholder': 'Enter crop (e.g. Cotton)...',
+            'clear_chat': 'Clear Chat'
+        },
+        'Telugu': {
+            'ask_ai': 'AI ని మరిన్ని ప్రశ్నలు అడగండి',
+            'ai_online': 'AI ఆన్‌లైన్‌లో ఉంది',
+            'chat_welcome_disease': 'నమస్కారం! నేను మీ మొక్కను విశ్లేషించాను. ఈ వ్యాధి, చికిత్సలు లేదా దానిని ఎలా నివారించాలో నన్ను అడగండి!',
+            'chat_welcome_soil': 'నమస్కారం! నేను మీ మట్టిని విశ్లేషించాను. ఈ మట్టి రకం, సిఫార్సు చేయబడిన పంటలు లేదా చికిత్సల గురించి నన్ను అడగండి!',
+            'chat_welcome_fert': 'నమస్కారం! నేను మీ ఎరువులను విశ్లేషించాను. వినియోగం, భదురు లేదా నిపుణుల సిఫార్సుల గురించి నన్ను అడగండి!',
+            'chat_placeholder': 'తదుపరి ప్రశ్న అడగండి...',
+            'agribot_placeholder': 'వ్యవసాయం గురించి అగ్రిబోట్‌ను ఏదైనా అడగండి...',
+            'symptoms': 'లక్షణాలు',
+            'causes': 'కారణాలు',
+            'prevention': 'నివారణ',
+            'treatment': 'చికిత్స మరియు ఉత్తమ పద్ధతులు',
+            'recommended_chemicals': 'సిఫార్సు చేయబడిన రసాయన నియంత్రణ',
+            'soil_chars': 'దృశ్య లక్షణాలు',
+            'composition': 'మిశ్రమ విశ్లేషణ',
+            'recommended_crops': 'సిఫార్సు చేయబడిన పంటలు',
+            'recommended_fertilizers': 'సిఫార్సు చేయబడిన ఎరువులు',
+            'ingredients': 'క్రియాశీల పదార్థాలు',
+            'usage': 'వినియోగ సూచనలు',
+            'safety': 'భద్రతా జాగ్రత్తలు',
+            'expert_recs': 'నిపుణుల సిఫార్సులు',
+            'market_price_trends': 'మార్కెట్ ధర పోకడలు',
+            'market_placeholder': 'పంటను నమోదు చేయండి (ఉదా. పత్తి)...',
+            'clear_chat': 'చాట్‌ను క్లియర్ చేయండి'
+        },
+        'Hindi': {
+            'ask_ai': 'AI से और प्रश्न पूछें',
+            'ai_online': 'AI ऑनलाइन है',
+            'chat_welcome_disease': 'नमस्ते! मैंने आपके पौधे का विश्लेषण किया है। इस बीमारी, उपचार या इसे रोकने के तरीके के बारे में मुझसे कुछ भी पूछें!',
+            'chat_welcome_soil': 'नमस्ते! मैंने आपकी मिट्टी का विश्लेषण किया है। इस मिट्टी के प्रकार, अनुशंसित फसलों या उपचारों के बारे में मुझसे कुछ भी पूछें!',
+            'chat_welcome_fert': 'नमस्ते! मैंने आपके उर्वरक का विश्लेषण किया है। उपयोग, सुरक्षा या विशेषज्ञ सिफारिशों के बारे में मुझसे कुछ भी पूछें!',
+            'chat_placeholder': 'अनुवर्ती प्रश्न पूछें...',
+            'agribot_placeholder': 'खेती के बारे में एग्रीबोट से कुछ भी पूछें...',
+            'symptoms': 'लक्षण',
+            'causes': 'कारण',
+            'prevention': 'निवारण',
+            'treatment': 'उपचार और सर्वोत्तम प्रथाएं',
+            'recommended_chemicals': 'अनुशंसित रासायनिक नियंत्रण',
+            'soil_chars': 'दृश्य विशेषताएं',
+            'composition': 'संरचना विश्लेषण',
+            'recommended_crops': 'अनुशंसित फसलें',
+            'recommended_fertilizers': 'अनुशंसित उर्वरक',
+            'ingredients': 'सक्रिय तत्व',
+            'usage': 'उपयोग के निर्देश',
+            'safety': 'सुरक्षा सावधानियां',
+            'expert_recs': 'विशेषज्ञ सिफारिशें',
+            'market_price_trends': 'बाजार मूल्य रुझान',
+            'market_placeholder': 'फसल दर्ज करें (जैसे कपास)...',
+            'clear_chat': 'चैट साफ़ करें'
+        }
+    };
+
+    function translateUI() {
+        const lang = getLang();
+        const dict = translations[lang] || translations['English'];
+        
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.getAttribute('data-translate');
+            if (dict[key]) el.textContent = dict[key];
+        });
+        
+        document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-translate-placeholder');
+            if (dict[key]) el.placeholder = dict[key];
+        });
+    }
+
     const langSelector = document.getElementById('lang-selector');
     if (langSelector) {
         const savedLang = localStorage.getItem('agrilens_lang');
         if (savedLang) langSelector.value = savedLang;
+        translateUI(); // Initial translation
+        
         langSelector.addEventListener('change', () => {
             localStorage.setItem('agrilens_lang', langSelector.value);
+            translateUI();
         });
     }
     
@@ -476,7 +572,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const userMsg = document.createElement('div');
             userMsg.className = 'chat-msg user-msg';
-            userMsg.textContent = msg;
+            userMsg.innerHTML = `
+                <div class="chat-avatar-sm"><i class="fa-solid fa-user"></i></div>
+                <div class="chat-bubble">${msg}</div>
+            `;
             messages.appendChild(userMsg);
             messages.scrollTop = messages.scrollHeight;
 
@@ -495,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/\n/g, '<br>');
-                aiMsg.innerHTML = `<i class="fa-solid fa-leaf"></i> ${formatted}`;
+                aiMsg.innerHTML = `<div class="chat-avatar-sm"><i class="fa-solid fa-robot"></i></div><div class="chat-bubble">${formatted}</div>`;
                 messages.appendChild(aiMsg);
                 messages.scrollTop = messages.scrollHeight;
             } catch (e) {

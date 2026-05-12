@@ -228,25 +228,24 @@
                     </div>
                     <div class="info-grid">
                         <div class="info-box block-full">
-                            <h3><i class="fa-solid fa-microscope text-blue"></i> Symptoms</h3>
+                            <h3><i class="fa-solid fa-microscope text-blue"></i> <span data-translate="symptoms">Symptoms</span></h3>
                             <p id="symptoms-text">Loading...</p>
                         </div>
                         <div class="info-box">
-                            <h3><i class="fa-solid fa-virus text-purple"></i> Causes</h3>
+                            <h3><i class="fa-solid fa-virus text-purple"></i> <span data-translate="causes">Causes</span></h3>
                             <p id="causes-text">Loading...</p>
                         </div>
                         <div class="info-box">
-                            <h3><i class="fa-solid fa-shield-virus text-orange"></i> Prevention</h3>
+                            <h3><i class="fa-solid fa-shield-virus text-orange"></i> <span data-translate="prevention">Prevention</span></h3>
                             <p id="prevention-text">Loading...</p>
                         </div>
                         <div class="info-box block-full treatment-box">
-                            <h3><i class="fa-solid fa-prescription-bottle-medical text-green"></i> Treatment & Best
-                                Practices</h3>
+                            <h3><i class="fa-solid fa-prescription-bottle-medical text-green"></i> <span data-translate="treatment">Treatment & Best Practices</span></h3>
                             <p id="treatment-text">Loading...</p>
                         </div>
                         <div class="info-box block-full chemicals-box"
                             style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(245, 158, 11, 0.08)); border-color: rgba(245, 158, 11, 0.3);">
-                            <h3><i class="fa-solid fa-flask text-orange"></i> Recommended Chemical Control</h3>
+                            <h3><i class="fa-solid fa-flask text-orange"></i> <span data-translate="recommended_chemicals">Recommended Chemical Control</span></h3>
                             <ul id="chemicals-list"
                                 style="color: var(--text-muted); padding-left: 20px; font-size: 1.05rem; line-height: 1.7;">
                                 <li>Loading...</li>
@@ -259,21 +258,26 @@
             <!-- AI Chatbot -->
             <div class="chatbot-section" id="disease-chatbot-section">
                 <div class="chatbot-header">
-                    <i class="fa-solid fa-robot"></i>
-                    <h3>Ask the AI More Questions</h3>
-                    <span class="chatbot-badge">Powered by Gemini</span>
+                    <div class="chat-avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div>
+                        <h3 data-translate="ask_ai">Ask the AI More Questions</h3>
+                        <span class="online-badge"><span class="online-dot"></span> <span data-translate="ai_online">AI Online</span></span>
+                    </div>
                 </div>
                 <div class="chatbot-messages" id="disease-chatbot-messages">
                     <div class="chat-msg ai-msg">
-                        <i class="fa-solid fa-leaf"></i>
-                        Hi! I've analyzed your plant. Ask me anything about this disease, treatments, or how to prevent
-                        it!
+                        <div class="chat-avatar-sm"><i class="fa-solid fa-robot"></i></div>
+                        <div class="chat-bubble" data-translate="chat_welcome_disease">
+                            Hi! I've analyzed your plant. Ask me anything about this disease, treatments, or how to prevent it!
+                        </div>
                     </div>
                 </div>
-                <div class="chatbot-input-area">
-                    <button class="chat-mic-btn" id="disease-mic-btn" title="Voice Input" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0 10px;"><i class="fa-solid fa-microphone"></i></button>
-                    <input type="text" id="disease-chat-input" class="chat-input" placeholder="Request Intelligence Query..." />
-                    <button class="chat-send-btn" id="disease-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                <div class="crop-chat-input-area">
+                    <div class="chat-input-container">
+                        <button class="chat-mic-btn" id="disease-mic-btn" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
+                        <input type="text" id="disease-chat-input" class="chat-input" placeholder="Ask follow-up question..." data-translate-placeholder="chat_placeholder" />
+                        <button class="chat-send-btn" id="disease-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -422,20 +426,26 @@
             <!-- AI Chatbot -->
             <div class="chatbot-section" id="soil-chatbot-section">
                 <div class="chatbot-header">
-                    <i class="fa-solid fa-robot"></i>
-                    <h3>Ask the AI More Questions</h3>
-                    <span class="chatbot-badge">Powered by Gemini</span>
+                    <div class="chat-avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div>
+                        <h3 data-translate="ask_ai">Ask the AI More Questions</h3>
+                        <span class="online-badge"><span class="online-dot"></span> <span data-translate="ai_online">AI Online</span></span>
+                    </div>
                 </div>
                 <div class="chatbot-messages" id="soil-chatbot-messages">
                     <div class="chat-msg ai-msg">
-                        <i class="fa-solid fa-leaf"></i>
-                        Hi! I've analyzed your soil. Ask me anything about this soil type, recommended crops, or treatments!
+                        <div class="chat-avatar-sm"><i class="fa-solid fa-robot"></i></div>
+                        <div class="chat-bubble" data-translate="chat_welcome_soil">
+                            Hi! I've analyzed your soil. Ask me anything about this soil type, recommended crops, or treatments!
+                        </div>
                     </div>
                 </div>
-                <div class="chatbot-input-area">
-                    <button class="chat-mic-btn" id="soil-mic-btn" title="Voice Input" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0 10px;"><i class="fa-solid fa-microphone"></i></button>
-                    <input type="text" id="soil-chat-input" class="chat-input" placeholder="Request Intelligence Query..." />
-                    <button class="chat-send-btn" id="soil-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                <div class="crop-chat-input-area">
+                    <div class="chat-input-container">
+                        <button class="chat-mic-btn" id="soil-mic-btn" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
+                        <input type="text" id="soil-chat-input" class="chat-input" placeholder="Ask follow-up question..." data-translate-placeholder="chat_placeholder" />
+                        <button class="chat-send-btn" id="soil-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -584,20 +594,26 @@
             <!-- AI Chatbot -->
             <div class="chatbot-section" id="fert-chatbot-section">
                 <div class="chatbot-header">
-                    <i class="fa-solid fa-robot"></i>
-                    <h3>Ask the AI More Questions</h3>
-                    <span class="chatbot-badge">Powered by Gemini</span>
+                    <div class="chat-avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div>
+                        <h3 data-translate="ask_ai">Ask the AI More Questions</h3>
+                        <span class="online-badge"><span class="online-dot"></span> <span data-translate="ai_online">AI Online</span></span>
+                    </div>
                 </div>
                 <div class="chatbot-messages" id="fert-chatbot-messages">
                     <div class="chat-msg ai-msg">
-                        <i class="fa-solid fa-leaf"></i>
-                        Hi! I've analyzed your fertilizer. Ask me anything about usage, safety, or expert recommendations!
+                        <div class="chat-avatar-sm"><i class="fa-solid fa-robot"></i></div>
+                        <div class="chat-bubble" data-translate="chat_welcome_fert">
+                            Hi! I've analyzed your fertilizer. Ask me anything about usage, safety, or expert recommendations!
+                        </div>
                     </div>
                 </div>
-                <div class="chatbot-input-area">
-                    <button class="chat-mic-btn" id="fert-mic-btn" title="Voice Input" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0 10px;"><i class="fa-solid fa-microphone"></i></button>
-                    <input type="text" id="fert-chat-input" class="chat-input" placeholder="Request Intelligence Query..." />
-                    <button class="chat-send-btn" id="fert-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                <div class="crop-chat-input-area">
+                    <div class="chat-input-container">
+                        <button class="chat-mic-btn" id="fert-mic-btn" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
+                        <input type="text" id="fert-chat-input" class="chat-input" placeholder="Ask follow-up question..." data-translate-placeholder="chat_placeholder" />
+                        <button class="chat-send-btn" id="fert-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
                 </div>
             </div>
         </section>

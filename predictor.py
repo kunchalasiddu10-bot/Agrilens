@@ -25,7 +25,7 @@ def analyze_image(image_path, lang='English', retries=5):
     except Exception as e:
         return {"success": False, "error": f"Failed to open image file: {str(e)}"}
         
-    prompt = """
+    prompt = f"""
     You are an expert AI agricultural plant pathologist. Analyze this image of a plant or leaf.
     Identify the exact crop and any disease present. If the plant is completely healthy, state that it is Healthy.
     
@@ -121,7 +121,7 @@ def analyze_soil(image_path, lang='English', retries=5):
     except Exception as e:
         return {"success": False, "error": f"Failed to open image: {str(e)}"}
         
-    prompt = '''
+    prompt = f'''
     You are an expert AI agricultural soil scientist. Analyze this image of farm soil.
     Identify the exact soil type and its likely moisture level or health.
     
@@ -195,7 +195,7 @@ def analyze_fertilizer(image_path, lang='English', retries=5):
     except Exception as e:
         return {"success": False, "error": f"Failed to open image: {str(e)}"}
         
-    prompt = '''
+    prompt = f'''
     You are an expert agricultural chemist and OCR (Optical Character Recognition) AI. 
     Analyze this image of a fertilizer or agricultural chemical bottle/packet.
     Read the label carefully and extract its purpose and safe usage.
